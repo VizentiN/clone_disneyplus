@@ -1,6 +1,21 @@
 document.addEventListener("DOMContentLoaded" , function () {
     const buttons = document.querySelectorAll('[data-tab-button]');
+    const questions = document.querySelectorAll('[data-faq-question]')
 
+    const heroSection = document.querySelector('.hero');
+    const heightHero = heroSection.clientHeight;
+
+    window.addEventListener('scroll', function() {
+        const nowPosition = window.scrollY;
+
+        if (nowPosition < heightHero) {
+            hiddenHeaderElements();
+        } else {
+            showHeaderElements();
+        }
+    })
+
+    // Atracoes
     for (let i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function(botao) {
             const abaAlvo = botao.target.dataset.tabButton;
@@ -11,7 +26,19 @@ document.addEventListener("DOMContentLoaded" , function () {
             botao.target.classList.add('shows__tabs__button--is-active')
         })
     }
+
+    // FAQ, accordion
+    for (let i = 0; i < questions.length; i++) {
+        questions[i].addEventListener('click', openOrCloseAnwser);
+    }
 })
+
+function openOrCloseAnwser (elemento) {
+    const classe = 'faq__questions__item--is-open';
+    const elementoPai = elemento.target.parentNode;
+
+    elementoPai.classList.toggle(classe);
+}
 
 function removeBotaoAtivo () {
     const buttons = document.querySelectorAll('[data-tab-button]');
@@ -27,4 +54,14 @@ function escondeTodasAbas () {
     for (let i = 0; i < tabsContainer.length; i++) {
         tabsContainer[i].classList.remove('shows__list--is-active');
     }
+}
+
+function hiddenHeaderElements () {
+    const header  = document.querySelector('header');
+    header.classList.add('header--is-hidden');
+}
+
+function showHeaderElements () {
+    const header  = document.querySelector('header');
+    header.classList.remove('header--is-hidden');
 }
